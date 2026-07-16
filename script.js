@@ -39,7 +39,7 @@ const DATA_URL = "https://yogeshkumarai.github.io/extrasheet-papers/Public/data/
    * @returns {Object|undefined}
    */
 function findPaper(papers, criteria) {
-  return papers.find(function (paper) {
+  return papers.filter(function (paper) {
 
     return (
       normalize(paper.board) === normalize(criteria.board) &&
@@ -83,27 +83,64 @@ function findPaper(papers, criteria) {
    * Render the result card for a found paper.
    * @param {Object} paper
    */
-  function renderResultCard(paper) {
+  function renderResultCard(papers) {
+
+  let html = "";
+
+  papers.forEach(function (paper) {
+
     const pdfUrl = escapeHtml(paper.pdf);
 
-    resultArea.innerHTML =
+    html +=
       '<div class="result-card">' +
+
       '  <div class="result-head">' +
-      '    <h2 class="result-title">' + escapeHtml(paper.subject) + " — " + escapeHtml(paper.year) + "</h2>" +
-      '    <span class="status-stamp"><span class="dot" aria-hidden="true"></span>Available</span>' +
+      '    <h2 class="result-title">' +
+      escapeHtml(paper.subject) +
+      " — " +
+      escapeHtml(paper.year) +
+      " - " +
+      escapeHtml(paper.title) +
+      '</h2>' +
+      '    <span class="status-stamp"><span class="dot"></span>Available</span>' +
       "  </div>" +
+
       '  <div class="result-grid">' +
-      '    <div class="result-item"><div class="k">Board</div><div class="v">' + escapeHtml(paper.board) + "</div></div>" +
-      '    <div class="result-item"><div class="k">Class</div><div class="v">Class 10</div></div>' +
-      '    <div class="result-item"><div class="k">Subject</div><div class="v">' + escapeHtml(paper.subject) + "</div></div>" +
-      '    <div class="result-item"><div class="k">Year</div><div class="v">' + escapeHtml(paper.year) + "</div></div>" +
+
+      '    <div class="result-item">' +
+      '      <div class="k">Board</div>' +
+      '      <div class="v">' + escapeHtml(paper.board) + '</div>' +
+      '    </div>' +
+
+      '    <div class="result-item">' +
+      '      <div class="k">Class</div>' +
+      '      <div class="v">' + escapeHtml(paper.class) + '</div>' +
+      '    </div>' +
+
+      '    <div class="result-item">' +
+      '      <div class="k">Subject</div>' +
+      '      <div class="v">' + escapeHtml(paper.subject) + '</div>' +
+      '    </div>' +
+
+      '    <div class="result-item">' +
+      '      <div class="k">Year</div>' +
+      '      <div class="v">' + escapeHtml(paper.year) + '</div>' +
+      '    </div>' +
+
       "  </div>" +
+
       '  <div class="result-actions">' +
-      '    <a class="btn btn-solid" href="' + pdfUrl + '" target="_blank" rel="noopener noreferrer">Read PDF</a>' +
+      '    <a class="btn btn-solid" href="' + pdfUrl + '" target="_blank">Read PDF</a>' +
       '    <a class="btn btn-outline" href="' + pdfUrl + '" download>Download PDF</a>' +
       "  </div>" +
+
       "</div>";
-  }
+
+  });
+
+
+  resultArea.innerHTML = html;
+}
 
   /**
    * Handle the search form submission.
@@ -128,11 +165,13 @@ function findPaper(papers, criteria) {
 
     try {
       const papers = await loadPapers();
-      const match = findPaper(papers, criteria);
+     
 
-      if (match) {
-        renderResultCard(match);
-      } else {
+      const matches = findPaper(papers, criteria);
+
+if (matches.length > 0) {
+  renderResultCard(matches);
+} else {
         renderEmptyState();
       }
     } catch (error) {
