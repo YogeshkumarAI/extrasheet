@@ -39,7 +39,11 @@ const DATA_URL = "https://yogeshkumarai.github.io/extrasheet-papers/Public/data/
    * @returns {Object|undefined}
    */
 function findPaper(papers, criteria) {
-  return papers.filter(function (paper) {
+
+  console.log("SEARCH CRITERIA:", criteria);
+  console.log("TOTAL PAPERS:", papers.length);
+
+  const result = papers.filter(function (paper) {
 
     return (
       normalize(paper.board) === normalize(criteria.board) &&
@@ -48,6 +52,10 @@ function findPaper(papers, criteria) {
     );
 
   });
+
+  console.log("MATCH FOUND:", result);
+
+  return result;
 }
 
   function normalize(value) {
