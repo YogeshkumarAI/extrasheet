@@ -39,12 +39,7 @@ const DATA_URL = "https://yogeshkumarai.github.io/extrasheet-papers/Public/data/
    * @returns {Object|undefined}
    */
 function findPaper(papers, criteria) {
-
-  console.log("User Search:", criteria);
-
   return papers.find(function (paper) {
-
-    console.log("Checking:", paper);
 
     return (
       normalize(paper.board) === normalize(criteria.board) &&
