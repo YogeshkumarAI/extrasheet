@@ -38,16 +38,22 @@ const DATA_URL = "https://yogeshkumarai.github.io/extrasheet-papers/Public/data/
    * @param {Object} criteria
    * @returns {Object|undefined}
    */
-  function findPaper(papers, criteria) {
-    return papers.find(function (paper) {
-      return (
-        normalize(paper.board) === normalize(criteria.board) &&
-        normalize(paper.subject) === normalize(criteria.subject) &&
-        String(paper.year) === String(criteria.year) &&
-        normalize(paper.type) === normalize(criteria.type)
-      );
-    });
-  }
+function findPaper(papers, criteria) {
+
+  console.log("User Search:", criteria);
+
+  return papers.find(function (paper) {
+
+    console.log("Checking:", paper);
+
+    return (
+      normalize(paper.board) === normalize(criteria.board) &&
+      normalize(paper.subject) === normalize(criteria.subject) &&
+      String(paper.year) === String(criteria.year)
+    );
+
+  });
+}
 
   function normalize(value) {
     return String(value || "").trim().toLowerCase();
