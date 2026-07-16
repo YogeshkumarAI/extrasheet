@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  const DATA_URL = "data/papers.json";
+ const DATA_URL = "Public/data/papers.json";
 
   const form = document.getElementById("search-form");
   const resultArea = document.getElementById("result-area");
